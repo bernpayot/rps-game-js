@@ -6,11 +6,11 @@ function getComputerChoice() {
     computer = Math.floor(Math.random() * 3) + 1;
 
     if (computer === 3) {
-        return computerChoice = "scissors";
+        return "scissors";
     } else if (computer === 2) {
-        return computerChoice = "rock";
+        return "rock";
     } else {
-        return computerChoice = "paper";
+        return "paper";
     }
 }
 
@@ -18,49 +18,41 @@ function getHumanChoice() {
     choice = parseInt(prompt("What do you want to pick? Choose the number from below:\n1: Paper\n2: Rock\n3: Scissors"));
 
     if (choice === 3) {
-        return humanChoice = "scissors";
+        return "scissors";
     } else if (choice === 2) {
-        return humanChoice = "rock";
+        return "rock";
     } else if (choice === 1) {
-        return humanChoice = "paper";
+        return "paper";
     }
 }
 
 function playRound(humanChoice, computerChoice) {
-    if (humanChoice === "rock" && computerChoice === "scissors") {
-        humanScore++;
-        return "You win, Rock beats scissors!";
-    } else if (humanChoice === "scissors" && computerChoice === "paper") {
-        humanScore++;
-        return "You win, Scissors beats paper!";
-    } else if (humanChoice === "paper" && computerChoice === "rock") {
-        humanScore++;
-        return "You win! Paper beats rock!";
-    } else if (humanChoice === "rock" && computerChoice === "paper") {
-        computerScore++;
-        return "You lose! Paper beats rock.";
+    if (humanChoice === computerChoice) {
+        return "You both picked the same hand!";
+    }
 
-    } else if (humanChoice === "paper" && computerChoice === "scissors") {
-        computerScore++;
-        return "You lose! Scissors beats paper.";
-    } else if (humanChoice === "scissors" && computerChoice === "rock") {
-        computerScore++;
-        return "You lose! Rock beats scissors.";
-    } else if (humanChoice === "rock" && computerChoice === "rock") {
-        return "You both picked the same hand!";
-    } else if (humanChoice === "paper" && computerChoice === "paper") {
-        return "You both picked the same hand!";
-    } else if (humanChoice === "scissors" && computerChoice === "scissors") {
-        return "You both picked the same hand!";
+    if (
+        (humanChoice === "rock" && computerChoice === "scissors") ||
+        (humanChoice === "scissors" && computerChoice === "paper") ||
+        (humanChoice === "paper" && computerChoice === "rock")
+    ) {
+        humanScore++;
+        return `You win! ${humanChoice.charAt(0).toUpperCase() + humanChoice.slice(1)} beats ${computerChoice}.`;
     } else {
-        return "Wrong number! Try again.";
-    }   
-}
+        computerScore++;
+        return `You lose! ${computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)} beats ${humanChoice}.`;
+    }
+}   
 
 
 function playGame() {
-    while (humanScore < maxScore || computerScore < maxScore) {
+    while (humanScore < maxScore && computerScore < maxScore) {
         const humanSelection = getHumanChoice();
+        if (!humanSelection) {
+            console.log("Invalid input. Please choose a valid number.");
+            continue;
+        }
+
         const computerSelection = getComputerChoice();
 
         console.log(playRound(humanSelection, computerSelection));
