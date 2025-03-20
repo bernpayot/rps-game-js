@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+body {
+    font-family: Rubik;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: bisque;
+}
+
+.container {
+    background-color: white;
+    width: 600px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    box-shadow: 10px 10px black;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.header {
+    font-style: italic;
+    font-size: 42px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#creator {
+    font-size: 12px;
+}
+
+.choice-content {
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 52px;
+}
+
+.left-img, .right-img {
+    width: 150px;
+    height: 150px;
+    border: 1px solid black;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h5 {
+    text-align: center;
+    margin: 0;
+    padding: 10px;
+}
+
+img {
+    width: 130px;
+    height: 130px;
+}
+
+#message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+button {
+    width: 120px;
+    height: 30px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#one, #two, #three {
+    font-weight: bold;
+    color: black;
+    background-color: beige;
+}

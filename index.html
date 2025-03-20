@@ -3,9 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <title>Rock Paper Scissors</title>
 </head>
 <body>
-    <script src="main.js"></script>
+    <div class="container">
+        <div class="header">Rock Paper Scissors!
+            <div id="creator">By Bern Payot</div>
+            <div id="score">0-0</div>
+        </div>
+        <div class="choice-content">
+            <div class="left">
+                <div class="left-img"><img src="./images/rock.jpg"></div>
+                <h5>You</h5>
+            </div>
+            <div class="right">
+                <div class="right-img"><img src="./images/rock.jpg"></div>
+                <h5>Computer</h5>
+            </div>
+        </div>
+        <div id="message">Select the hand that you want to play!</div>
+        <div class="buttons">
+            <button id="one" class="choice-btn">Rock</button>
+            <button id="two" class="choice-btn">Paper</button>
+            <button id="three" class="choice-btn">Scissors</button>
+        </div>
+    </div>
+    <script src="main.js" defer></script>
 </body>
 </html>

@@ -1,71 +1,161 @@
-let humanScore = 0;
-let computerScore = 0;
-const maxScore = 5;
+const images = ['./images/rock.jpg', './images/paper.jpg', './images/scissor.jpg'];
+let currentImageIndex = 0;
+
+function changeImage() {
+    currentImageIndex = (currentImageIndex + 1) % images.length;
+    document.querySelectorAll('img').forEach(img => {
+        img.src = images[currentImageIndex];
+    });
+}
+
+function startImageLoop() {
+    currentImageIndex = 0;
+    changeImage();
+    imageLoopInterval = setInterval(changeImage, 300);
+}
+
+function stopImageLoop() {
+    clearInterval(imageLoopInterval);
+}
+
+startImageLoop();
+
+humanChoice = '';
+computerChoice = '';
+
+const rock = document.querySelector("#one");
+rock.addEventListener("click", () => {
+    humanChoice = "Rock";
+    stopImageLoop();
+    computerChoice = getComputerChoice();
+    updateChoiceImage();
+    playRound(humanChoice, computerChoice);
+});
+
+const paper = document.querySelector("#two");
+paper.addEventListener("click", () => {
+    humanChoice = "Paper";
+    stopImageLoop();
+    computerChoice = getComputerChoice();
+    updateChoiceImage();
+    playRound(humanChoice, computerChoice);
+});
+
+const scissors = document.querySelector("#three");
+scissors.addEventListener("click", () => {
+    humanChoice = "Scissors";
+    stopImageLoop();
+    computerChoice = getComputerChoice();
+    updateChoiceImage();
+    playRound(humanChoice, computerChoice);
+});
 
 function getComputerChoice() {
     computer = Math.floor(Math.random() * 3) + 1;
 
     if (computer === 3) {
-        return "scissors";
+        computerChoice = "Scissors";
+        return computerChoice;
     } else if (computer === 2) {
-        return "rock";
+        computerChoice = "Paper";
+        return computerChoice;
     } else {
-        return "paper";
+        computerChoice = "Rock";
+        return computerChoice;
     }
 }
 
-function getHumanChoice() {
-    choice = parseInt(prompt("What do you want to pick? Choose the number from below:\n1: Paper\n2: Rock\n3: Scissors"));
+function updateChoiceImage() {
+    const humanChoiceImage = document.querySelector(".left-img img");
+    const computerChoiceImage = document.querySelector(".right-img img");
+    if (humanChoice === "Rock") {
+      humanChoiceImage.src = "./images/rock.jpg";
+    } else if (humanChoice === "Paper") {
+      humanChoiceImage.src = "./images/paper.jpg";
+    } else if (humanChoice === "Scissors") {
+      humanChoiceImage.src = "./images/scissor.jpg";
+    }
 
-    if (choice === 3) {
-        return "scissors";
-    } else if (choice === 2) {
-        return "rock";
-    } else if (choice === 1) {
-        return "paper";
+    if (computerChoice === "Rock") {
+        computerChoiceImage.src = "./images/rock.jpg";
+      } else if (computerChoice === "Paper") {
+        computerChoiceImage.src = "./images/paper.jpg";
+      } else if (computerChoice === "Scissors") {
+        computerChoiceImage.src = "./images/scissor.jpg";
+      }
+}
+
+const buttons = document.querySelectorAll(".choice-btn");
+const messageContainer = document.querySelector("#message");
+let originalText = messageContainer.textContent;
+
+function resetText() {
+    messageContainer.textContent = originalText;
+}
+
+humanScore = 0;
+computerScore = 0;
+maxScore = 5;
+
+function gameLoop() {
+    if (humanScore === maxScore || computerScore === maxScore) {
+        const baseMessage = humanScore === maxScore 
+            ? "You won against the computer!"
+            : "You lost against the computer.";
+
+        buttons.forEach(button => button.disabled = true);
+
+        let secondsLeft = 5;
+        
+        messageContainer.textContent = `${baseMessage} Resetting in ${secondsLeft} seconds.`;
+
+        const countdownInterval = setInterval(() => {
+            secondsLeft--;
+            
+            if (secondsLeft > 0) {
+                messageContainer.textContent = `${baseMessage} Resetting in ${secondsLeft} seconds.`;
+            } else {
+                clearInterval(countdownInterval);
+                resetGameState();
+                startImageLoop();
+            }
+        }, 1000);
     }
 }
+
+function resetGameState() {
+    humanScore = 0;
+    computerScore = 0;
+
+    document.querySelector("#score").textContent = "0-0";
+    messageContainer.textContent = originalText;
+
+    buttons.forEach(button => {
+        button.disabled = false;
+    });
+  }
 
 function playRound(humanChoice, computerChoice) {
+    const score = document.querySelector("#score");
     if (humanChoice === computerChoice) {
-        return "You both picked the same hand!";
+        messageContainer.textContent = "You both picked the same hand!";
+        return;
     }
 
     if (
-        (humanChoice === "rock" && computerChoice === "scissors") ||
-        (humanChoice === "scissors" && computerChoice === "paper") ||
-        (humanChoice === "paper" && computerChoice === "rock")
+        (humanChoice === "Rock" && computerChoice === "Scissors") ||
+        (humanChoice === "Scissors" && computerChoice === "Paper") ||
+        (humanChoice === "Paper" && computerChoice === "Rock")
     ) {
         humanScore++;
-        return `You win! ${humanChoice.charAt(0).toUpperCase() + humanChoice.slice(1)} beats ${computerChoice}.`;
+        messageContainer.textContent = `You win! ${humanChoice} beats ${computerChoice}.`;
     } else {
-        computerScore++;
-        return `You lose! ${computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)} beats ${humanChoice}.`;
+        computerScore++
+        messageContainer.textContent = `You lose! ${computerChoice} beats ${humanChoice}.`;
     }
-}   
 
-
-function playGame() {
-    while (humanScore < maxScore && computerScore < maxScore) {
-        const humanSelection = getHumanChoice();
-        if (!humanSelection) {
-            console.log("Invalid input. Please choose a valid number.");
-            continue;
-        }
-
-        const computerSelection = getComputerChoice();
-
-        console.log(playRound(humanSelection, computerSelection));
-        console.log("The score is: " + humanScore + " : " + computerScore);
-
-        if (humanScore === 5) {
-            console.log("You win!");
-            break;
-        } else if (computerScore === 5) {
-            console.log("You lose.");
-            break;
-        }
-    }
+    score.textContent = `${humanScore}-${computerScore}`;
+    gameLoop();
 }
 
-playGame();
+
